@@ -1,4 +1,4 @@
-from exercises import EXERCISES, DOUBLE_EXERCISES
+from exercises import EXERCISES
 from random import shuffle
 
 class TabataRandomizer():
@@ -15,13 +15,11 @@ class TabataRandomizer():
         exercises = self.exercises
         shuffle(exercises)
         ex = []
-        dbl = 0
+        slots = 0
         for index, exercise in enumerate(exercises):
-            if index + dbl >= self.number_of_sets:
-                break
-            if exercise['name'] in DOUBLE_EXERCISES:
-                dbl += 1
-                ex.append(exercise['name'])
+            slots += exercise['slots']
+            if slots > self.number_of_sets:
+                slots -= exercise['slots']
                 continue
             ex.append(exercise['name'])
         return ex
