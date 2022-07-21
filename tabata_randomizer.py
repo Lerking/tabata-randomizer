@@ -1,4 +1,4 @@
-from exercises import EXERCISES
+from exercises import EXERCISES, DOUBLE_EXERCISES
 from random import shuffle
 
 class TabataRandomizer():
