@@ -1,5 +1,8 @@
 from exercises import EXERCISES
 from random import shuffle
+from gtts import gTTS
+import playsound
+import os.path
 
 class TabataRandomizer():
     def __init__(self, number_of_sets: int = 8, number_of_reps: int = 4,
@@ -17,13 +20,24 @@ class TabataRandomizer():
         ex = []
         slots = 0
         for index, exercise in enumerate(exercises):
+            tmp = {}
             slots += exercise['slots']
             if slots > self.number_of_sets:
                 slots -= exercise['slots']
                 continue
-            ex.append(exercise['name'])
+            tmp['name'] = exercise['name']
+            tmp['speak'] = exercise['speak']
+            ex.append(tmp)
+            if not os.path.exists('audio/'+exercise['speak']):
+                self.gen_audio(exercise['name'], exercise['speak'])
         return ex
 
+    def gen_audio(self, text: str, speak: str):
+        if 'x2' in text:
+            text = text.replace('x2', 'times 2')
+        tts = gTTS(text='Next up, '+text, lang='en', slow=False)
+        tts.save('audio/'+speak)
+        
     def get_exercises(self):
         return self.exercises
 
