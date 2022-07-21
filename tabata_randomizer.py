@@ -14,13 +14,17 @@ class TabataRandomizer():
     def randomize(self):
         exercises = self.exercises
         shuffle(exercises)
+        ex = []
+        dbl = 0
         for index, exercise in enumerate(exercises):
-            if exercise['name'] == 'Side plank x2':
-                if index <= 6:
-                    return exercises[:self.number_of_sets - 1]
-                elif index == 7:
-                    return exercises[:self.number_of_sets - 1:1]
-        return exercises[:self.number_of_sets]
+            if index + dbl >= self.number_of_sets:
+                break
+            if exercise['name'] in DOUBLE_EXERCISES:
+                dbl += 1
+                ex.append(exercise['name'])
+                continue
+            ex.append(exercise['name'])
+        return ex
 
     def get_exercises(self):
         return self.exercises
@@ -28,7 +32,7 @@ class TabataRandomizer():
     def get_training_plan(self):
         training_plan = []
         for exercise in self.randomize():
-            training_plan.append(exercise['name'])
+            training_plan.append(exercise)
         return training_plan
 
     def get_training_time(self):
